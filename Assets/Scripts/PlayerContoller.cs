@@ -121,8 +121,11 @@ public class PlayerContoller : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        OnGround = false;
-        CanJump = false;
+        if (other.tag == "World")
+        {
+            OnGround = false;
+            CanJump = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

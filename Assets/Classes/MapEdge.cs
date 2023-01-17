@@ -8,7 +8,7 @@ public class MapEdge : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Player.ActivePlayer.Retry();
+            Player.activePlayer.Retry();
         }
     }
 }
