@@ -53,12 +53,12 @@ public class PauseMenuHandler : MonoBehaviour
 
     public void Retry()
     {
-        Player.ActivePlayer.Retry();
+        Player.activePlayer.Retry();
     }
 
     public void Restart()
     {
-        Player.ActivePlayer.Restart();
+        Player.activePlayer.Restart();
     }
 
     public void Quit()
