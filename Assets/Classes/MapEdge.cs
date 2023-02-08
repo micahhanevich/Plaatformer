@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class MapEdge : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Got here");
         if (other.gameObject.tag == "Player")
         {
+            Debug.Log("And here!");
             Player.activePlayer.Retry();
         }
     }

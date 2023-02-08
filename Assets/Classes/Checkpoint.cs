@@ -5,7 +5,7 @@ using UnityEngine.Animations;
 
 public class Checkpoint : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
