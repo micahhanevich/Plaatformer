@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [Header("Internally Defined")]
-    protected Rigidbody rbody;
+    protected Rigidbody2D rbody;
 
     public static Player activePlayer;
 
@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         activePlayer = this;
-        rbody = GetComponent<Rigidbody>();
+        rbody = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     {
         if (ActiveCheckpoint is not null) { transform.position = ActiveCheckpoint.transform.position; }
         else { transform.position = RestartPoint.ActiveRestartPoint.transform.position; }
-        rbody.velocity = Vector3.zero;
+        rbody.velocity = Vector2.zero;
         PauseMenuHandler.ActivePauseMenu.GetComponent<PauseMenuHandler>().Unpause();
     }
 

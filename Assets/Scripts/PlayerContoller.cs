@@ -6,13 +6,13 @@ public class PlayerContoller : MonoBehaviour
 {
     [Header("Internally Defined")]
     [SerializeField]
-    protected Rigidbody rbody;
+    protected Rigidbody2D rbody;
 
     public bool InputMoveThisFrame { get; private set; }
 
     public bool InputJumpThisFrame { get; private set; }
 
-    private Vector3 _poslastframe;
+    private Vector2 _poslastframe;
     public bool Moved { get { if (_poslastframe != rbody.position) { return false; } else { return true; } } }
 
     public bool OnGround { get; private set; }
@@ -67,7 +67,7 @@ public class PlayerContoller : MonoBehaviour
     public int MaxJumpDelay = 8;
 
     [SerializeField]
-    protected Vector3 BaseGravity = Physics.gravity;
+    protected Vector2 BaseGravity = Physics.gravity;
 
     [Header("Animation Settings")]
     [SerializeField]
@@ -79,7 +79,7 @@ public class PlayerContoller : MonoBehaviour
 
     void Start()
     {
-        rbody = GetComponent<Rigidbody>();
+        rbody = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -87,8 +87,8 @@ public class PlayerContoller : MonoBehaviour
         if (!OnGround && rbody.velocity.y < 0f) { Falling = true; }
         else { Falling = false; }
 
-        if (Falling && Physics.gravity == BaseGravity) { Physics.gravity += new Vector3(0, -FallPower, 0); }
-        else if (!Falling && Physics.gravity != BaseGravity) { Physics.gravity = BaseGravity; }
+        if (Falling && Physics2D.gravity == BaseGravity) { Physics2D.gravity += new Vector2(0, -FallPower); }
+        else if (!Falling && Physics2D.gravity != BaseGravity) { Physics.gravity = BaseGravity; }
 
         if (OnGround) { rbody.drag = GroundDrag; }
         else { rbody.drag = AirDrag; }
@@ -115,11 +115,11 @@ public class PlayerContoller : MonoBehaviour
         if (JumpDelay >= 0 && JumpDelay < MaxJumpDelay) { JumpDelay += 1; }
         else { JumpDelay = -1; }
 
-        rbody.velocity = new Vector3(Mathf.Clamp(rbody.velocity.x, -Speed * MaxSpeedScale, Speed * MaxSpeedScale), rbody.velocity.y);
-        if (rbody.velocity.x < 0.001f && rbody.velocity.x > -0.001f) { rbody.velocity = new Vector3(0, rbody.velocity.y); }
+        rbody.velocity = new Vector2(Mathf.Clamp(rbody.velocity.x, -Speed * MaxSpeedScale, Speed * MaxSpeedScale), rbody.velocity.y);
+        if (rbody.velocity.x < 0.001f && rbody.velocity.x > -0.001f) { rbody.velocity = new Vector2(0, rbody.velocity.y); }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == "World")
         {
@@ -128,7 +128,7 @@ public class PlayerContoller : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "World" && !OnGround)
         {
@@ -141,13 +141,13 @@ public class PlayerContoller : MonoBehaviour
 
     protected bool Move_Left()
     {
-        rbody.velocity += new Vector3 (-1 * Speed, 0);
+        rbody.velocity += new Vector2 (-1 * Speed, 0);
         return true;
     }
 
     protected bool Move_Right()
     {
-        rbody.velocity += new Vector3(1 * Speed, 0);
+        rbody.velocity += new Vector2(1 * Speed, 0);
         return true;
     }
 
@@ -156,8 +156,8 @@ public class PlayerContoller : MonoBehaviour
         if ((OnGround && CanJump && !JumpLocked && JumpDelay == -1) || (TimeOffGround <= CoyoteTimer && !JumpLocked && Jumps > 0 && JumpDelay == -1) || (!OnGround && !CanJump && Jumps > 0 && Jumps < MaxJumps && JumpDelay == -1))
         {
             rbody.drag = AirDrag;
-            rbody.velocity = new Vector3(rbody.velocity.x, 1 * JumpPower);
-            Instantiate(JumpPrefab, new Vector3(transform.position.x, transform.position.y - 0.15f), transform.rotation);
+            rbody.velocity = new Vector2(rbody.velocity.x, 1 * JumpPower);
+            Instantiate(JumpPrefab, new Vector2(transform.position.x, transform.position.y - 0.15f), transform.rotation);
             CanJump = false;
             Jumps -= 1;
             JumpDelay += 1;

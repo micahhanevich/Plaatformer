@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Wen : MonoBehaviour
@@ -7,7 +5,7 @@ public class Wen : MonoBehaviour
     [SerializeField]
     protected GameObject WinText;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
